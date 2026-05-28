@@ -1,0 +1,58 @@
+<%= form_with model: link, url: links_path, class: "space-y-5" do |f| %>
+  <% if link.errors.any? %>
+    <div class="rounded-lg border border-red-800 bg-red-900/30 p-4 text-sm text-red-300">
+      <p class="font-semibold mb-1">Please fix the following:</p>
+      <ul class="list-disc list-inside space-y-0.5">
+        <% link.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :target_url, "Destination URL", class: "block text-sm font-medium text-zinc-300 mb-1.5" %>
+    <%= f.url_field :target_url,
+          placeholder: "https://example.com/your/long/url",
+          required: true,
+          class: "block w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2
+                  text-white placeholder-zinc-500 text-sm focus:outline-none
+                  focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+    <p class="mt-1 text-xs text-zinc-500">Must start with http:// or https://</p>
+  </div>
+
+  <div>
+    <%= f.label :name, class: "block text-sm font-medium text-zinc-300 mb-1.5" do %>
+      Name <span class="text-zinc-500 font-normal">(optional)</span>
+    <% end %>
+    <%= f.text_field :name,
+          placeholder: "My Wikipedia link",
+          class: "block w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2
+                  text-white placeholder-zinc-500 text-sm focus:outline-none
+                  focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= f.label :slug, class: "block text-sm font-medium text-zinc-300 mb-1.5" do %>
+      Custom slug <span class="text-zinc-500 font-normal">(optional — leave blank to auto-generate)</span>
+    <% end %>
+    <div class="flex items-center gap-0">
+      <span class="inline-flex items-center rounded-l-md border border-r-0 border-zinc-700
+                   bg-zinc-800 px-3 py-2 text-sm text-zinc-400 select-none">/r/</span>
+      <%= f.text_field :slug,
+            placeholder: "my-slug",
+            autocomplete: "off",
+            class: "block w-full rounded-r-md border border-zinc-700 bg-zinc-900 px-3 py-2
+                    text-white placeholder-zinc-500 text-sm focus:outline-none
+                    focus:ring-2 focus:ring-indigo-500 focus:border-transparent" %>
+    </div>
+    <p class="mt-1 text-xs text-zinc-500">Letters, numbers, hyphens, underscores. Min 2, max 64 characters.</p>
+  </div>
+
+  <div class="flex items-center gap-4 pt-2">
+    <%= f.submit "Create Short Link",
+          class: "rounded-md bg-indigo-600 hover:bg-indigo-500 px-5 py-2 text-sm
+                  font-semibold text-white transition-colors cursor-pointer" %>
+    <%= link_to "Cancel", root_path, class: "text-sm text-zinc-400 hover:text-zinc-300 transition-colors" %>
+  </div>
+<% end %>
