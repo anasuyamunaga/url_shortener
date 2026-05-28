@@ -9,8 +9,10 @@ def show
 
   record_visit(link)
 
-  if link.target_url.match?(/\Ahttps?:\/\/.+\z/i)
-    redirect_to link.target_url, allow_other_host: true, status: :found
+  url = link.target_url
+
+  if url.present? && url.match?(URI::DEFAULT_PARSER.make_regexp(%w[http https]))
+    redirect_to url, allow_other_host: true, status: :found
   else
     render file: Rails.root.join("public/404.html"), status: :not_found, layout: false
   end
