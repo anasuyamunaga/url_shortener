@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="turbo-cache-control" content="no-preview">
+    <title><%= content_for?(:title) ? yield(:title) + " · Snip" : "Snip — URL Shortener" %></title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full bg-zinc-950 text-zinc-100 font-sans antialiased">
+    <header class="border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+      <%= link_to "New Link", new_link_path,
+            class: "inline-flex items-center gap-1.5 rounded-md bg-indigo-600 hover:bg-indigo-500
+                    px-4 py-1.5 text-sm font-semibold text-white transition-colors" %>
+    </header>
+
+    <% if notice.present? %>
+      <div class="bg-emerald-900/50 border border-emerald-700 text-emerald-300 px-6 py-3 text-sm" role="alert">
+        <%= notice %>
+      </div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="bg-red-900/50 border border-red-700 text-red-300 px-6 py-3 text-sm" role="alert">
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <main class="mx-auto max-w-5xl px-6 py-10">
+      <%= yield %>
+    </main>
+  </body>
+</html>
