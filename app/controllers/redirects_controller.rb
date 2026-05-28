@@ -1,16 +1,20 @@
 class RedirectsController < ApplicationController
-  def show
-    link = Link.find_by(slug: params[:slug])
+def show
+  link = Link.find_by(slug: params[:slug])
 
-    if link.nil?
-      render file: Rails.root.join("public/404.html"), status: :not_found, layout: false
-      return
-    end
-
-    record_visit(link)
-
-    redirect_to link.target_url, allow_other_host: true, status: :found
+  if link.nil?
+    render file: Rails.root.join("public/404.html"), status: :not_found, layout: false
+    return
   end
+
+  record_visit(link)
+
+  if link.target_url.match?(/\Ahttps?:\/\/.+\z/i)
+    redirect_to link.target_url, allow_other_host: true, status: :found
+  else
+    render file: Rails.root.join("public/404.html"), status: :not_found, layout: false
+  end
+end
 
   private
 
